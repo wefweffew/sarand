@@ -140,7 +140,7 @@ int main() {
 				break;
 			}
 		}
-		if (!f)
+		if (f)
 			pcapWriter.writePacket(rawPacket);
 	}
 
