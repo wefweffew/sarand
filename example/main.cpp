@@ -5,6 +5,7 @@
 #include "EthLayer.h"
 #include "IPv4Layer.h"
 #include "TcpLayer.h"
+#include "UdpLayer.h"
 #include "HttpLayer.h"
 #include "PcapFileDevice.h"
 
@@ -38,15 +39,18 @@ int main() {
         {
             continue;
         }
-
-        if (ipLayer->getIPv4Header()->protocol == pcpp::IPProtocolTypes::TCP) {
+        
+        pcpp::TcpLayer* tcpLayer = parsedPacket.getLayerOfType<pcpp::TcpLayer>();
+        if (tcpLayer == NULL)
+        {
             continue;
         }
-        
+
         std::cout << std::endl
             << "Source TCP port: " << tcpLayer->getSrcPort() << std::endl
             << "Destination TCP port: " << tcpLayer->getDstPort() << std::endl
             << "Window size: " << pcpp::netToHost16(tcpLayer->getTcpHeader()->windowSize) << std::endl;
     }
+
     return 0;
 }
